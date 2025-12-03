@@ -21,6 +21,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButto
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.InputField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.MediumButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Tab
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.Gangnam2kiAndroidStudyTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,6 +37,7 @@ class MainActivity : ComponentActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                // button
                 BigButton(
                     text = "My Button",
                     onClick = {
@@ -46,25 +50,41 @@ class MainActivity : ComponentActivity() {
                 Spacer(modifier = Modifier.height(16.dp))
                 SmallButton("Button")
 
+                // input field
                 Spacer(modifier = Modifier.height(32.dp))
-                InputField(label = "라벨")
+                InputField(label = "Default")
+                Spacer(modifier = Modifier.height(16.dp))
+                InputField(
+                    label = "Focus",
+                    placeholder = {
+                        Text(
+                            text = "클릭하면 focus 상태가 됩니다",
+                            color = AppColors.gray4,
+                            style = AppTextStyles.smallerTextRegular,
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                InputField(label = "Filled", value = "value")
+
+                // tab
+                Spacer(modifier = Modifier.height(32.dp))
+                Tab(
+                    labels = listOf("label1", "label2"),
+                    selectedIndex = 0,
+                    onValueChange = {
+                        println("$it 번째 탭을 클릭했습니다")
+                    }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Tab(
+                    labels = listOf("label1", "label2"),
+                    selectedIndex = 1,
+                    onValueChange = {
+                        println("$it 번째 탭을 클릭했습니다")
+                    }
+                )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Gangnam2kiAndroidStudyTheme {
-        Greeting("Android")
     }
 }
