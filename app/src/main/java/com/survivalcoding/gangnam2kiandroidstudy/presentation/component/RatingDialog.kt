@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -78,7 +76,7 @@ fun RatingDialog(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    repeat(4) { index ->
+                    repeat(5) { index ->
                         Icon(
                             painter = if (rate.value < index + 1) painterResource(R.drawable.outline_star)
                             else painterResource(R.drawable.bold_star),
@@ -90,19 +88,11 @@ fun RatingDialog(
                                 },
                             tint = AppColors.rating,
                         )
-                        Spacer(Modifier.width(10.dp))
+                        if (index < 4) {
+                            Spacer(Modifier.width(10.dp))
+                        }
+
                     }
-                    Icon(
-                        painter = if (rate.value < 5) painterResource(R.drawable.outline_star)
-                        else painterResource(R.drawable.bold_star),
-                        contentDescription = "별점 아이콘",
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable {
-                                rate.value = 5
-                            },
-                        tint = AppColors.rating,
-                    )
                 }
 
                 Box(
