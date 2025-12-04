@@ -88,16 +88,18 @@ class MainActivity : ComponentActivity() {
 
                 Spacer(Modifier.height(32.dp))
 
-                RatingDialog(
-                    title = "Rating",
-                    actionName = "Send",
-                    onChange = {
-                        print("$it 점을 매겼습니다!")
-                    },
-                    onDismiss = {
-                        showRatingDialog.value = false
-                    }
-                )
+                if (showRatingDialog.value) {
+                    RatingDialog(
+                        title = "Rating",
+                        actionName = "Send",
+                        onChange = {
+                            print("$it 점을 매겼습니다!")
+                        },
+                        onDismiss = {
+                            showRatingDialog.value = false
+                        }
+                    )
+                }
             }
         }
     }
