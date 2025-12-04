@@ -18,10 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.IngredientItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.InputField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.MediumButton
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Tab
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -34,15 +36,33 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             // 12월 4일 연습문제
-            val ingredient = Ingredient(
-                name = "Tomatos",
-                imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
-            )
+            Column(
+                modifier = Modifier.padding(30.dp)
+            ) {
+                val ingredient = Ingredient(
+                    name = "Tomatos",
+                    imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
+                )
 
-            IngredientItem(
-                ingredient = ingredient,
-                quantity = "500g"
-            )
+                IngredientItem(
+                    ingredient = ingredient,
+                    quantity = "500g"
+                )
+
+                Spacer(Modifier.height(32.dp))
+
+                val recipe = Recipe(
+                    id = 2,
+                    category = "Asian",
+                    name = "Spice roasted chicken with flavored rice",
+                    imageUrl = "https://cdn.pixabay.com/photo/2018/12/04/16/49/tandoori-3856045_1280.jpg",
+                    chef = "Mark Kelvin",
+                    time = "20 min",
+                    rating = 4.0,
+                )
+
+                RecipeCard(recipe)
+            }
 
         }
     }
