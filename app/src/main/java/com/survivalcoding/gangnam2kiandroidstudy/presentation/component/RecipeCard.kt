@@ -145,7 +145,7 @@ fun RecipeCard(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.bold_star),
-                    contentDescription = "북마크 아이콘",
+                    contentDescription = "별점 아이콘",
                     modifier = Modifier
                         .size(8.dp),
                     tint = AppColors.rating,
