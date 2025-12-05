@@ -95,7 +95,7 @@ object AppTextStyles {
         fontFamily = AppFonts.Poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 11.sp,
-        lineHeight = 27.sp
+        lineHeight = 17.sp
     )
 
     // 추가
