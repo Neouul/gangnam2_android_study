@@ -105,10 +105,7 @@ fun SignInScreen(
             // Sign In 버튼
             BigButton(
                 text = "Sign In",
-                modifier = Modifier
-                    .clickable {
-                        onSignInClick()
-                    }
+                onClick = onSignInClick
             )
 
             // Or Sign in With
