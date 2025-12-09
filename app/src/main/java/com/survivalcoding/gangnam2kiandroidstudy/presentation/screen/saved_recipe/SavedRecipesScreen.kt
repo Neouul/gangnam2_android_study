@@ -24,8 +24,7 @@ fun SavedRecipesScreen(
     val savedRecipes by viewModel.savedRecipes.collectAsState()
 
     Column(
-        modifier = modifier
-            .padding(horizontal = 30.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -36,8 +35,7 @@ fun SavedRecipesScreen(
         )
 
         LazyColumn(
-            modifier = modifier
-
+            modifier = Modifier.padding(horizontal = 30.dp),
         ) {
             items(savedRecipes) { recipe ->
                 RecipeCard(
