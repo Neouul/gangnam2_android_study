@@ -72,6 +72,63 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                     ) to 200,
                 )
             ),
+            Recipe(
+                id = 3,
+                category = "Chinese",
+                name = "Spicy fried rice mix chicken bali",
+                imageUrl = "https://cdn.pixabay.com/photo/2019/09/07/19/02/spanish-paella-4459519_1280.jpg",
+                chef = "Spicy Nelly",
+                time = "20 min",
+                rating = 4.0,
+                ingredients = listOf(
+                    Ingredient(
+                        id = 6,
+                        name = "Chicken",
+                        imageUrl = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg",
+                    ) to 200,
+                    Ingredient(
+                        id = 4,
+                        name = "Rice",
+                        imageUrl = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg",
+                    ) to 150,
+                    Ingredient(
+                        id = 1,
+                        name = "Tomato",
+                        imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
+                    ) to 100,
+                )
+            ),
+            Recipe(
+                id = 4,
+                category = "Japanese",
+                name = "Ttekbokki",
+                imageUrl = "https://cdn.pixabay.com/photo/2017/07/27/16/48/toppokki-2545943_1280.jpg",
+                chef = "Kim Dahee",
+                time = "30 min",
+                rating = 5.0,
+                ingredients = listOf()
+            ),
+            Recipe(
+                id = 5,
+                category = "American",
+                name = "Grilled salmon with avocado salsa",
+                imageUrl = "https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg",
+                chef = "Alice Johnson",
+                time = "25 min",
+                rating = 4.5,
+                ingredients = listOf(
+                    Ingredient(
+                        id = 5,
+                        name = "Avocado",
+                        imageUrl = "https://cdn.pixabay.com/photo/2020/01/02/01/43/avocado-4734786_1280.jpg",
+                    ) to 150,
+                    Ingredient(
+                        id = 8,
+                        name = "Pepper",
+                        imageUrl = "https://cdn.pixabay.com/photo/2016/03/05/22/31/pepper-1239308_1280.jpg",
+                    ) to 5,
+                )
+            ),
         )
     }
 }
