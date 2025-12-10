@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Gangnam2kiAndroidStudy</string>
     <string name="title_activity_saved_recipes">SavedRecipesActivity</string>
+    <string name="title_activity_search_recipes">SearchRecipesActivity</string>
 </resources>
