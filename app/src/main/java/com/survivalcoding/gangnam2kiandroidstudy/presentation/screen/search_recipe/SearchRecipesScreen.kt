@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -43,9 +44,9 @@ fun SearchRecipesScreen(
     viewModel: SearchRecipesViewModel = viewModel(factory = SearchRecipesViewModel.Factory),
     state: SearchRecipesState,
 
-    onSearchTermChange: (String) -> Unit = { },
-
+    onSearchTermChange: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
+    onFilterClick: () -> Unit = {},
 ) {
 
     Column(
@@ -101,7 +102,7 @@ fun SearchRecipesScreen(
                     unfocusedBorderColor = AppColors.gray4,
                 ),
                 shape = RoundedCornerShape(10.dp),
-                onValueChange = { viewModel.updateSearchTerm(it) },
+                onValueChange = onSearchTermChange,
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.outline_search_normal),
@@ -119,6 +120,7 @@ fun SearchRecipesScreen(
                     .size(40.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .background(color = AppColors.primary100)
+                    .clickable { onFilterClick() }
             ) {
                 Icon(
                     painter = painterResource(R.drawable.outline_setting_4),
@@ -153,7 +155,8 @@ fun SearchRecipesScreen(
             }
         }
 
-        LazyVerticalGrid(
+        if (state.isLoading) LoadingOverlay()
+        else LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier,
             horizontalArrangement = Arrangement.spacedBy(15.dp),
@@ -170,5 +173,21 @@ fun SearchRecipesScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun LoadingOverlay() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(30.dp),
+            strokeWidth = 4.dp,
+            color = AppColors.gray3
+        )
     }
 }
