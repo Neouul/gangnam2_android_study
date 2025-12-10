@@ -32,7 +32,7 @@ class SearchRecipesViewModel(
 
     // 바텀시트 필터 담는 flow
     private val _filterState = MutableStateFlow(FilterSearchState())
-    private val filterState = _filterState.asStateFlow()
+    val filterState = _filterState.asStateFlow()
 
     // 검색어만 담는 flow
     private val searchTermFlow = MutableStateFlow("")
@@ -132,9 +132,13 @@ class SearchRecipesViewModel(
 
             // category 필터
             .let { list ->
-                if (filter.category.isNotBlank())
-                    list.filter { it.category.equals(filter.category, ignoreCase = true) }
-                else list
+                if (filter.category == "All") {
+                    list
+                } else {
+                    if (filter.category.isNotBlank())
+                        list.filter { it.category.equals(filter.category, ignoreCase = true) }
+                    else list
+                }
             }
 
         // UI 업데이트

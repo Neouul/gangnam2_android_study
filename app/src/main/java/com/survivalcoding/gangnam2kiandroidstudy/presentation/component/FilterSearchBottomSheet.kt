@@ -27,10 +27,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun FilterSearchBottomSheet(
     modifier: Modifier = Modifier,
+    initialFilter: FilterSearchState = FilterSearchState(),
     onApplyFilter: (FilterSearchState) -> Unit = {},
     onDismiss: () -> Unit = {},
 ) {
-    var filterState by remember { mutableStateOf(FilterSearchState()) }
+    var filterState by remember(initialFilter) {
+        mutableStateOf(initialFilter)     // 이전 선택값으로 초기화
+    }
 //    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     val timeList = listOf("All", "Newest", "Oldest", "Popularity")
@@ -100,7 +103,13 @@ fun FilterSearchBottomSheet(
                     for (num in 5 downTo 1) {
                         RatingButton(
                             text = "$num",
-                            onClick = { filterState = filterState.copy(rating = num) },
+                            onClick = {
+                                filterState = if (filterState.rating == num) {
+                                    filterState.copy(rating = null)   // 동일 버튼 누르면 해제
+                                } else {
+                                    filterState.copy(rating = num)    // 새로 선택
+                                }
+                            },
                             isSelected = (filterState.rating == num),
                             modifier = Modifier.padding(bottom = 10.dp)
                         )

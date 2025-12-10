@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
@@ -50,7 +51,9 @@ fun SearchRecipesScreen(
     onSearchTermChange: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
 ) {
+    // 필터 시트 출력 여부
     var showFilterSheet by remember { mutableStateOf(false) }
+    val filterState by viewModel.filterState.collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier.padding(horizontal = 30.dp),
@@ -185,7 +188,8 @@ fun SearchRecipesScreen(
                     viewModel.applyFilter(filter)
                     showFilterSheet = false
                 },
-                onDismiss = { showFilterSheet = false }
+                onDismiss = { showFilterSheet = false },
+                initialFilter = filterState,
             )
         }
     }
