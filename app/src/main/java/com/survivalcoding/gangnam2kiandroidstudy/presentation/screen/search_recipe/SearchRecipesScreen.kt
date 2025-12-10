@@ -5,10 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +23,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
@@ -46,8 +49,8 @@ fun SearchRecipesScreen(
 
     onSearchTermChange: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
-    onFilterClick: () -> Unit = {},
 ) {
+    var showFilterSheet by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.padding(horizontal = 30.dp),
@@ -115,12 +118,13 @@ fun SearchRecipesScreen(
 
             Spacer(Modifier.width(20.dp))
 
+            // 필터 아이콘
             Box(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .background(color = AppColors.primary100)
-                    .clickable { onFilterClick() }
+                    .clickable { showFilterSheet = true }
             ) {
                 Icon(
                     painter = painterResource(R.drawable.outline_setting_4),
@@ -172,6 +176,17 @@ fun SearchRecipesScreen(
                     SmallRecipeCard(recipe = recipe)
                 }
             }
+        }
+
+        // 필터 시트
+        if (showFilterSheet) {
+            FilterSearchBottomSheet(
+                onApplyFilter = { filter ->
+                    viewModel.applyFilter(filter)
+                    showFilterSheet = false
+                },
+                onDismiss = { showFilterSheet = false }
+            )
         }
     }
 }

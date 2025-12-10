@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.data.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +29,10 @@ class SearchRecipesViewModel(
 
     private val _state = MutableStateFlow(SearchRecipesState())
     val state: StateFlow<SearchRecipesState> = _state.asStateFlow()
+
+    // 바텀시트 필터 담는 flow
+    private val _filterState = MutableStateFlow(FilterSearchState())
+    private val filterState = _filterState.asStateFlow()
 
     // 검색어만 담는 flow
     private val searchTermFlow = MutableStateFlow("")
@@ -98,6 +103,46 @@ class SearchRecipesViewModel(
             }
         }
     }
+
+    // 바텀시트 필터 적용
+    fun applyFilter(filter: FilterSearchState) {
+        _filterState.value = filter
+
+        val all = state.value.allRecipes
+
+        val filtered = all
+            // searchTerm 필터
+            .filter { it.name.contains(state.value.searchTerm, ignoreCase = true) }
+
+            // time 필터
+            .let { list ->
+                when (filter.time) {
+                    "Newest" -> list.sortedByDescending { it.id }
+                    "Oldest" -> list.sortedBy { it.id }
+                    else -> list
+                }
+            }
+
+            // rating 필터
+            .let { list ->
+                if (filter.rating != null)
+                    list.filter { it.rating.toInt() == filter.rating }
+                else list
+            }
+
+            // category 필터
+            .let { list ->
+                if (filter.category.isNotBlank())
+                    list.filter { it.category.equals(filter.category, ignoreCase = true) }
+                else list
+            }
+
+        // UI 업데이트
+        _state.update {
+            it.copy(filteredRecipes = filtered)
+        }
+    }
+
 
     // 파괴될 때
     override fun onCleared() {

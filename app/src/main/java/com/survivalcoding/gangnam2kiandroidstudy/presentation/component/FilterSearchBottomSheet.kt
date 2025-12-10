@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +31,7 @@ fun FilterSearchBottomSheet(
     onDismiss: () -> Unit = {},
 ) {
     var filterState by remember { mutableStateOf(FilterSearchState()) }
+//    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     val timeList = listOf("All", "Newest", "Oldest", "Popularity")
     val categoryList = listOf(
@@ -49,6 +51,7 @@ fun FilterSearchBottomSheet(
     ModalBottomSheet(
         containerColor = AppColors.white,
         onDismissRequest = onDismiss,
+//        sheetState = sheetState,
     ) {
         Column(
             modifier = Modifier
@@ -122,15 +125,15 @@ fun FilterSearchBottomSheet(
                         if (category == "Dinner") {
                             RatingButton(
                                 text = category,
-                                onClick = { },
-                                isSelected = false,
+                                onClick = { filterState = filterState.copy(category = category) },
+                                isSelected = (filterState.category == category),
                                 modifier = Modifier.padding(end = 10.dp, bottom = 10.dp),
                             )
                         } else {
                             FilterButton(
                                 text = category,
-                                onClick = { },
-                                isSelected = false,
+                                onClick = { filterState = filterState.copy(category = category) },
+                                isSelected = (filterState.category == category),
                                 modifier = Modifier.padding(end = 10.dp, bottom = 10.dp),
                             )
                         }
