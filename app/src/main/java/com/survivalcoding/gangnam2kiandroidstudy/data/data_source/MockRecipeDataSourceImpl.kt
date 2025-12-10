@@ -101,7 +101,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             Recipe(
                 id = 4,
                 category = "Japanese",
-                name = "Ttekbokki",
+                name = "Long Very Long Long Very Very Long Ttekbokki",
                 imageUrl = "https://cdn.pixabay.com/photo/2017/07/27/16/48/toppokki-2545943_1280.jpg",
                 chef = "Kim Dahee",
                 time = "30 min",
@@ -127,6 +127,96 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                         name = "Pepper",
                         imageUrl = "https://cdn.pixabay.com/photo/2016/03/05/22/31/pepper-1239308_1280.jpg",
                     ) to 5,
+                )
+            ),
+            Recipe(
+                id = 6,
+                category = "British",
+                name = "Beef Wellington",
+                imageUrl = "https://cdn.pixabay.com/photo/2019/10/22/10/11/beef-wellington-4568239_1280.jpg",
+                chef = "Gordon Ramsay",
+                time = "45 min",
+                rating = 5.0,
+                ingredients = listOf(
+                    Ingredient(
+                        id = 2,
+                        name = "Beef",
+                        imageUrl = "https://cdn.pixabay.com/photo/2016/01/21/18/08/meet-1154341_1280.png",
+                    ) to 500,
+                    Ingredient(
+                        id = 9,
+                        name = "Onion",
+                        imageUrl = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg",
+                    ) to 100,
+                )
+            ),
+            Recipe(
+                id = 7,
+                category = "Italian",
+                name = "Classic Margherita Pizza",
+                imageUrl = "https://cdn.pixabay.com/photo/2019/05/15/18/56/pizza-4205701_1280.jpg",
+                chef = "Mario Batali",
+                time = "15 min",
+                rating = 4.3,
+                ingredients = listOf(
+                    Ingredient(
+                        id = 1,
+                        name = "Tomato",
+                        imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
+                    ) to 200,
+                )
+            ),
+            Recipe(
+                id = 8,
+                category = "Japanese",
+                name = "Sushi Platter",
+                imageUrl = "https://cdn.pixabay.com/photo/2017/10/15/11/41/sushi-2853382_1280.jpg",
+                chef = "Jiro Ono",
+                time = "60 min",
+                rating = 4.8,
+                ingredients = listOf(
+                    Ingredient(
+                        id = 6,
+                        name = "Chicken",
+                        imageUrl = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg",
+                    ) to 200,
+                    Ingredient(
+                        id = 4,
+                        name = "Rice",
+                        imageUrl = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg",
+                    ) to 100,
+                )
+            ),
+            Recipe(
+                id = 9,
+                category = "French",
+                name = "French Onion Soup",
+                imageUrl = "https://cdn.pixabay.com/photo/2016/03/03/16/19/food-1234483_1280.jpg",
+                chef = "Julia Child",
+                time = "40 min",
+                rating = 4.6,
+                ingredients = listOf(
+                    Ingredient(
+                        id = 9,
+                        name = "Onion",
+                        imageUrl = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg",
+                    ) to 300,
+                )
+            ),
+            Recipe(
+                id = 10,
+                category = "French",
+                name = "Chocolate Lava Cake",
+                imageUrl = "https://cdn.pixabay.com/photo/2016/11/22/18/52/cake-1850011_1280.jpg",
+                chef = "Paul Hollywood",
+                time = "30 min",
+                rating = 4.9,
+                ingredients = listOf(
+                    Ingredient(
+                        id = 7,
+                        name = "Sugar",
+                        imageUrl = "https://cdn.pixabay.com/photo/2014/11/28/19/10/lump-sugar-549096_1280.jpg",
+                    ) to 100,
                 )
             ),
         )
