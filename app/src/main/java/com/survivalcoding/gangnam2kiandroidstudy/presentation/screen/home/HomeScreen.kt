@@ -37,9 +37,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun HomeScreen(
     state: HomeState,
 
-    onSearchTermChange: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
     onFilterClick: () -> Unit = {},
+    onCategoryClick: (String) -> Unit = {},
 ) {
     // 스크롤 상태 저장
     val scrollState = rememberScrollState()
@@ -96,8 +96,8 @@ fun HomeScreen(
 
         // 카테고리 선택바
         RecipeCategorySelector(
-            modifier = Modifier
-                .padding(vertical = 15.dp)
+            modifier = Modifier.padding(vertical = 15.dp),
+            onCategoryClick = onCategoryClick
         )
 
         // dish cards

@@ -31,6 +31,26 @@ class HomeViewModel(
         loadRecipes()
     }
 
+    fun onSelectCategory(category: String) {
+        _state.update { it.copy(selectedCategory = category) }
+        filterRecipesByCategory(category)
+    }
+
+    private fun filterRecipesByCategory(category: String) {
+        val all = state.value.allRecipes
+
+        val filtered =
+            if (category == "All") {
+                all
+            } else {
+                all.filter { recipe ->
+                    recipe.category.equals(category, ignoreCase = true)
+                }
+            }
+
+        _state.update { it.copy(selectedRecipes = filtered) }
+    }
+
 
     fun loadRecipes() {
         viewModelScope.launch {
@@ -38,8 +58,17 @@ class HomeViewModel(
 
             when (val response = recipeRepository.findRecipes()) {
                 is Result.Success -> _state.update { currentState ->
+                    val all = response.data
+
                     currentState.copy(
-                        allRecipes = response.data,
+                        allRecipes = all,
+                        selectedRecipes = if (currentState.selectedCategory == "All") all
+                        else all.filter {
+                            it.category.equals(
+                                currentState.selectedCategory,
+                                ignoreCase = true
+                            )
+                        },
                         isLoading = false,
                     )
                 }
