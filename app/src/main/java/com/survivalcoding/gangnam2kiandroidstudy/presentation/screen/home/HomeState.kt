@@ -8,4 +8,5 @@ data class HomeState(
     val selectedCategory: String = "All",
     val searchTerm: String = "",
     val isLoading: Boolean = false,
+    val savedRecipeIds: Set<Long> = emptySet(),
 )

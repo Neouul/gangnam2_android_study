@@ -14,5 +14,6 @@ fun HomeRoot(
     HomeScreen(
         state = state,
         onCategoryClick = { category -> viewModel.onSelectCategory(category) },
+        onBookmarkClick = { recipeId -> viewModel.toggleBookmark(recipeId) },
     )
 }

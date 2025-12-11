@@ -81,6 +81,18 @@ class HomeViewModel(
         }
     }
 
+    // 레시피 저장
+    fun toggleBookmark(recipeId: Long) {
+        _state.update { state ->
+            val newBookmarks = if (recipeId in state.savedRecipeIds) {
+                state.savedRecipeIds - recipeId  // 제거
+            } else {
+                state.savedRecipeIds + recipeId  // 추가
+            }
+
+            state.copy(savedRecipeIds = newBookmarks)
+        }
+    }
 
     // 파괴될 때
     override fun onCleared() {
