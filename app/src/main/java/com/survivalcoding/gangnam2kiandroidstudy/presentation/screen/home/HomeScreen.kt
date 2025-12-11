@@ -24,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.DishCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
@@ -40,6 +39,7 @@ fun HomeScreen(
     onBackClick: () -> Unit = {},
     onFilterClick: () -> Unit = {},
     onCategoryClick: (String) -> Unit = {},
+    onBookmarkClick: (Long) -> Unit = {},
 ) {
     // 스크롤 상태 저장
     val scrollState = rememberScrollState()
@@ -97,7 +97,8 @@ fun HomeScreen(
         // 카테고리 선택바
         RecipeCategorySelector(
             modifier = Modifier.padding(vertical = 15.dp),
-            onCategoryClick = onCategoryClick
+            selectedCategory = state.selectedCategory,
+            onCategoryClick = onCategoryClick,
         )
 
         // dish cards
@@ -109,7 +110,9 @@ fun HomeScreen(
             items(state.selectedRecipes) { selected ->
                 DishCard(
                     recipe = selected,
-                    modifier = Modifier.padding(end = 15.dp)
+                    modifier = Modifier.padding(end = 15.dp),
+                    isSaved = selected.id in state.savedRecipeIds,
+                    onBookmarkClick = { onBookmarkClick(selected.id) },
                 )
             }
         }

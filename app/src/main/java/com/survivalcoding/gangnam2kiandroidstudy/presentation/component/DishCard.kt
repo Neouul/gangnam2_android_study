@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +42,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun DishCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    isSaved: Boolean = false,
+    onBookmarkClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier.size(width = 150.dp, height = 231.dp)
@@ -98,7 +100,8 @@ fun DishCard(
                     .background(
                         color = AppColors.white,
                         shape = CircleShape,
-                    ),
+                    )
+                    .clickable { onBookmarkClick() },
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
@@ -106,7 +109,7 @@ fun DishCard(
                     contentDescription = "북마크 아이콘",
                     modifier = Modifier
                         .size(16.dp),
-                    tint = AppColors.primary80,
+                    tint = if (isSaved) AppColors.primary80 else AppColors.gray3,
                 )
             }
         }

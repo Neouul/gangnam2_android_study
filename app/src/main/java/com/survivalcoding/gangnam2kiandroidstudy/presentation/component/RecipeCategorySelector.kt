@@ -28,11 +28,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun RecipeCategorySelector(
     modifier: Modifier = Modifier,
-    initialSelect: String = "All",
+    selectedCategory: String = "All",
     onCategoryClick: (String) -> Unit = {},
 ) {
-
-    var selectedState by remember { mutableStateOf(initialSelect) }
 
     val categoryList = listOf(
         "All",
@@ -59,11 +57,10 @@ fun RecipeCategorySelector(
         items(categoryList) { category ->
             Box(
                 modifier = Modifier.clickable {
-                    selectedState = category
                     onCategoryClick(category)
                 }
             ) {
-                val isSelected = selectedState == category
+                val isSelected = selectedCategory == category
 
                 Text(
                     text = category,
