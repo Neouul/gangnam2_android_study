@@ -65,7 +65,9 @@ fun DishCard(
                     textAlign = TextAlign.Center,
                 ),
                 color = AppColors.gray1,
-                modifier = Modifier.padding(top = 56.dp),
+                modifier = Modifier
+                    .padding(top = 56.dp)
+                    .fillMaxWidth(),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -137,10 +139,9 @@ fun DishCard(
         // 별점
         Box(
             modifier = Modifier
-                .padding(10.dp)
                 .size(width = 45.dp, height = 23.dp)
                 .align(Alignment.TopEnd)
-                .offset(y = 38.dp)
+                .offset(y = 30.dp)
                 .background(
                     color = AppColors.secondary20,
                     shape = RoundedCornerShape(20.dp)
