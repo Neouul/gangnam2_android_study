@@ -131,14 +131,21 @@ class SearchRecipesViewModel(
                 else list
             }
 
-            // category 필터
+            // category 필터 (다중선택)
             .let { list ->
-                if (filter.category == "All") {
-                    list
-                } else {
-                    if (filter.category.isNotBlank())
-                        list.filter { it.category.equals(filter.category, ignoreCase = true) }
-                    else list
+                val selectedCategories = filter.categories  // 선택된 category 리스트
+
+                when {
+                    // 1) 아예 아무 카테고리도 선택 안함 → 전체 허용
+                    selectedCategories.isEmpty() -> list
+
+                    // 2) ALL 포함 → 전체 허용
+                    "All" in selectedCategories -> list
+
+                    // 3) 다중 선택 → 하나라도 매칭되면 포함
+                    else -> list.filter { recipe ->
+                        selectedCategories.contains(recipe.category)
+                    }
                 }
             }
 

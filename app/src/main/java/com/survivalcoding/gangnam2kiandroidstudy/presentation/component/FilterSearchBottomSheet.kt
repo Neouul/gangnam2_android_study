@@ -34,7 +34,7 @@ fun FilterSearchBottomSheet(
     var filterState by remember(initialFilter) {
         mutableStateOf(initialFilter)     // 이전 선택값으로 초기화
     }
-//    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     val timeList = listOf("All", "Newest", "Oldest", "Popularity")
     val categoryList = listOf(
@@ -54,11 +54,10 @@ fun FilterSearchBottomSheet(
     ModalBottomSheet(
         containerColor = AppColors.white,
         onDismissRequest = onDismiss,
-//        sheetState = sheetState,
+        sheetState = sheetState,
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(horizontal = 30.dp),
         ) {
             Text(
@@ -131,24 +130,36 @@ fun FilterSearchBottomSheet(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     categoryList.forEach { category ->
+                        val isSelected = category in filterState.categories
+
+                        val onClick = {
+                            filterState =
+                                if (isSelected) {
+                                    filterState.copy(categories = filterState.categories - category)
+                                } else {
+                                    filterState.copy(categories = filterState.categories + category)
+                                }
+                        }
+
                         if (category == "Dinner") {
                             RatingButton(
                                 text = category,
-                                onClick = { filterState = filterState.copy(category = category) },
-                                isSelected = (filterState.category == category),
+                                onClick = onClick,
+                                isSelected = isSelected,
                                 modifier = Modifier.padding(end = 10.dp, bottom = 10.dp),
                             )
                         } else {
                             FilterButton(
                                 text = category,
-                                onClick = { filterState = filterState.copy(category = category) },
-                                isSelected = (filterState.category == category),
+                                onClick = onClick,
+                                isSelected = isSelected,
                                 modifier = Modifier.padding(end = 10.dp, bottom = 10.dp),
                             )
                         }
                     }
                 }
             }
+
 
 
             SmallButton(
@@ -171,5 +182,5 @@ private fun PreviewFilterSearchBottomSheet() {
 data class FilterSearchState(
     val time: String = "",
     val rating: Int? = null,
-    val category: String = "",
+    val categories: Set<String> = emptySet(),
 )
