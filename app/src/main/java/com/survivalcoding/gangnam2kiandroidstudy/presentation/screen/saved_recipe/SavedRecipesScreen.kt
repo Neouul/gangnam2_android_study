@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
@@ -24,7 +26,7 @@ fun SavedRecipesScreen(
     val savedRecipes by viewModel.savedRecipes.collectAsState()
 
     Column(
-        modifier = modifier,
+        modifier = modifier.background(color = AppColors.white),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(

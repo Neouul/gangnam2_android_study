@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +40,9 @@ fun SearchRecipesScreen(
 ) {
 
     Column(
-        modifier = Modifier.padding(horizontal = 30.dp),
+        modifier = Modifier
+            .background(color = AppColors.white)
+            .padding(horizontal = 30.dp),
     ) {
         // Search recipes
         Box(
