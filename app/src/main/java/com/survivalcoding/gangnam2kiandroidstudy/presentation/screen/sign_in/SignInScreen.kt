@@ -38,7 +38,7 @@ fun SignInScreen(
     onForgotPasswordClick: () -> Unit = {},
     onGoogleSignInClick: () -> Unit = {},
     onFacebookSignInClick: () -> Unit = {},
-    onSignUpClick: () -> Unit = {},
+    onSignUpNavigateClick: () -> Unit = {},
 ) {
 
     Box(
@@ -83,7 +83,8 @@ fun SignInScreen(
                 label = "Enter Password",
                 placeholder = "Enter Password",
                 value = password,
-                onValueChange = onPasswordChange
+                onValueChange = onPasswordChange,
+                isPassword = true,
             )
 
             // 비밀번호 찾기
@@ -157,7 +158,7 @@ fun SignInScreen(
                     text = "Sign up",
                     style = AppTextStyles.smallerTextSemiBold,
                     color = AppColors.secondary100,
-                    modifier = Modifier.clickable { onSignUpClick() }
+                    modifier = Modifier.clickable { onSignUpNavigateClick() }
                 )
             }
         }

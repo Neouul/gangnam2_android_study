@@ -101,6 +101,7 @@ fun SignUpScreen(
                 modifier = Modifier
                     .padding(vertical = 20.dp),
                 onValueChange = onPasswordChange,
+                isPassword = true,
             )
 
             // 비밀번호 확인
@@ -109,6 +110,7 @@ fun SignUpScreen(
                 placeholder = "Retype Password",
                 value = confirmPassword,
                 onValueChange = onConfirmPasswordChange,
+                isPassword = true,
             )
 
             // 이용약관 동의
