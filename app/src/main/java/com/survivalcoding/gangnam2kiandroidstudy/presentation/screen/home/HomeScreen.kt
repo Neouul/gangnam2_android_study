@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,7 +37,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun HomeScreen(
     state: HomeState,
 
-    onBackClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {},
     onFilterClick: () -> Unit = {},
     onCategoryClick: (String) -> Unit = {},
     onBookmarkClick: (Long) -> Unit = {},
@@ -48,6 +50,7 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(scrollState)
+            .background(color = AppColors.white)
     ) {
         // 상단 텍스트, 프로필
         Box(
@@ -84,12 +87,15 @@ fun HomeScreen(
                         color = AppColors.secondary40,
                         shape = RoundedCornerShape(10.dp)
                     )
+                    .clickable { onProfileClick() },
             )
         }
 
         // 검색창
         SearchBar(
-            modifier = Modifier.padding(horizontal = 30.dp),
+            modifier = Modifier
+                .clickable { onSearchClick() }
+                .padding(horizontal = 30.dp),
             state = SearchRecipesState(),
             onSearchTermChange = { },
         )

@@ -7,7 +7,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun HomeRoot(
-    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
+    onSearchClick: () -> Unit,
+    onProfileClick: () -> Unit,
+    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -15,5 +17,7 @@ fun HomeRoot(
         state = state,
         onCategoryClick = { category -> viewModel.onSelectCategory(category) },
         onBookmarkClick = { recipeId -> viewModel.toggleBookmark(recipeId) },
+        onSearchClick = onSearchClick,
+        onProfileClick = onProfileClick,
     )
 }
