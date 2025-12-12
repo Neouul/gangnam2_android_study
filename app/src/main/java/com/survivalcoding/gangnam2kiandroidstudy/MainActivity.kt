@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.survivalcoding.gangnam2kiandroidstudy.core.routing.NavigationRoot
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
@@ -36,73 +37,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val showRatingDialog = remember { mutableStateOf(true) }
-
-            // 12월 4일 연습문제
-            Column(
-                modifier = Modifier.padding(30.dp)
-            ) {
-                val ingredient = Ingredient(
-                    id = 1,
-                    name = "Tomatos",
-                    imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
-                )
-
-                IngredientItem(
-                    ingredient = ingredient,
-                    quantity = "500g"
-                )
-
-                Spacer(Modifier.height(32.dp))
-
-                val recipe = Recipe(
-                    id = 2,
-                    category = "Asian",
-                    name = "Spice roasted chicken with flavored rice",
-                    imageUrl = "https://cdn.pixabay.com/photo/2018/12/04/16/49/tandoori-3856045_1280.jpg",
-                    chef = "Mark Kelvin",
-                    time = "20 min",
-                    rating = 4.0,
-                    ingredients = listOf(),
-                )
-
-                RecipeCard(recipe)
-
-                Spacer(Modifier.height(32.dp))
-
-                Row {
-                    RatingButton("5", false)
-                    Spacer(Modifier.width(16.dp))
-                    RatingButton("4", true)
-                }
-                Spacer(Modifier.height(16.dp))
-                Row {
-                    FilterButton("Text", false)
-                    Spacer(Modifier.width(16.dp))
-                    FilterButton("LongLongButton", true)
-                }
-
-                Spacer(Modifier.height(32.dp))
-
-                if (showRatingDialog.value) {
-                    RatingDialog(
-                        title = "Rating",
-                        actionName = "Send",
-                        onChange = {
-                            print("$it 점을 매겼습니다!")
-                        },
-                        onDismiss = {
-                            showRatingDialog.value = false
-                        }
-                    )
-                }
-            }
+            NavigationRoot()
         }
     }
 }
 
 @Composable
-fun Exercise1204() {
+fun Exercise1203() {
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -150,5 +91,70 @@ fun Exercise1204() {
                 println("$it 번째 탭을 클릭했습니다")
             }
         )
+    }
+}
+
+@Composable
+fun Exercise1204(modifier: Modifier = Modifier) {
+    val showRatingDialog = remember { mutableStateOf(true) }
+
+    // 12월 4일 연습문제
+    Column(
+        modifier = Modifier.padding(30.dp)
+    ) {
+        val ingredient = Ingredient(
+            id = 1,
+            name = "Tomatos",
+            imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
+        )
+
+        IngredientItem(
+            ingredient = ingredient,
+            quantity = "500g"
+        )
+
+        Spacer(Modifier.height(32.dp))
+
+        val recipe = Recipe(
+            id = 2,
+            category = "Asian",
+            name = "Spice roasted chicken with flavored rice",
+            imageUrl = "https://cdn.pixabay.com/photo/2018/12/04/16/49/tandoori-3856045_1280.jpg",
+            chef = "Mark Kelvin",
+            time = "20 min",
+            rating = 4.0,
+            ingredients = listOf(),
+        )
+
+        RecipeCard(recipe)
+
+        Spacer(Modifier.height(32.dp))
+
+        Row {
+            RatingButton("5", false)
+            Spacer(Modifier.width(16.dp))
+            RatingButton("4", true)
+        }
+        Spacer(Modifier.height(16.dp))
+        Row {
+            FilterButton("Text", false)
+            Spacer(Modifier.width(16.dp))
+            FilterButton("LongLongButton", true)
+        }
+
+        Spacer(Modifier.height(32.dp))
+
+        if (showRatingDialog.value) {
+            RatingDialog(
+                title = "Rating",
+                actionName = "Send",
+                onChange = {
+                    print("$it 점을 매겼습니다!")
+                },
+                onDismiss = {
+                    showRatingDialog.value = false
+                }
+            )
+        }
     }
 }
