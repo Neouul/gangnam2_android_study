@@ -100,7 +100,7 @@ fun NavigationRoot(
                 SearchRecipesRoot(
                     onBackClick = {
                         if (topLevelBackStack.size > 1) {
-                            topLevelBackStack.removeLast()
+                            topLevelBackStack.removeAt(topLevelBackStack.lastIndex)
                         }
                     }
                 )
