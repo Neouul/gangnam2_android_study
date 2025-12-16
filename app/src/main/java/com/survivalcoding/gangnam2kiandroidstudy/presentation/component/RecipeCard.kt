@@ -38,14 +38,15 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun RecipeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onCardClick: () -> Unit = {},
+    onBookmarkClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(150.dp)
             .clickable {
-                onClick()
+                onCardClick()
             }
     ) {
         AsyncImage(
@@ -123,6 +124,9 @@ fun RecipeCard(
                 Box(
                     modifier = Modifier
                         .size(24.dp)
+                        .clickable {
+                            onBookmarkClick
+                        }
                         .background(
                             color = AppColors.white,
                             shape = CircleShape,

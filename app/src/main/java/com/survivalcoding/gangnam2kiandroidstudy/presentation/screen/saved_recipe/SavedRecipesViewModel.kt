@@ -9,12 +9,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SavedRecipesViewModel(
@@ -22,8 +22,8 @@ class SavedRecipesViewModel(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _savedRecipes: MutableStateFlow<List<Recipe>> = MutableStateFlow(listOf())
-    val savedRecipes: StateFlow<List<Recipe>> = _savedRecipes.asStateFlow()
+    private val _state = MutableStateFlow(SavedRecipesState())
+    val state: StateFlow<SavedRecipesState> = _state.asStateFlow()
 
     init {
         println("MainViewModel init")
@@ -34,20 +34,29 @@ class SavedRecipesViewModel(
 
     suspend fun loadRecipes() {
         when (val response = recipeRepository.findRecipes()) {
-            is Result.Success -> _savedRecipes.value = response.data
+            is Result.Success -> _state.update {
+                it.copy(savedRecipes = response.data)
+            }
+
             is Result.Error -> println("에러 처리")
         }
     }
 
     suspend fun saveNewRecipe(id: Long) {
-        val updated = _savedRecipes.value.toMutableList()
-
         when (val response = recipeRepository.findRecipe(id)) {
-            is Result.Success -> updated.add(response.data)
+            is Result.Success -> _state.update { currentState ->
+                // 이미 저장된 레시피면 그대로
+                if (currentState.savedRecipes.any { it.id == id }) {
+                    currentState
+                } else {
+                    currentState.copy(
+                        savedRecipes = currentState.savedRecipes + response.data
+                    )
+                }
+            }
+
             is Result.Error -> println("에러 처리")
         }
-
-        _savedRecipes.value = updated
     }
 
     // 파괴될 때
@@ -67,5 +76,15 @@ class SavedRecipesViewModel(
                 )
             }
         }
+
+        fun factory(application: AppApplication): ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    SavedRecipesViewModel(
+                        recipeRepository = application.recipeRepository,
+                        savedStateHandle = createSavedStateHandle(),
+                    )
+                }
+            }
     }
 }
