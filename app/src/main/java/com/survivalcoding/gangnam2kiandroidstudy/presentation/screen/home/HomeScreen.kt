@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,7 +24,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.DishCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchBar
@@ -147,7 +147,7 @@ private fun PreviewHomeScreen() {
             selectedRecipes = listOf(
                 Recipe(
                     id = 2,
-                    category = "Asian",
+                    category = RecipeCategory.ASIAN,
                     name = "Spice roasted chicken with flavored rice",
                     imageUrl = "https://cdn.pixabay.com/photo/2018/12/04/16/49/tandoori-3856045_1280.jpg",
                     chef = "Mark Kelvin",
@@ -157,7 +157,7 @@ private fun PreviewHomeScreen() {
                 ),
                 Recipe(
                     id = 3,
-                    category = "Chinese",
+                    category = RecipeCategory.CHINESE,
                     name = "Spicy fried rice mix chicken bali",
                     imageUrl = "https://cdn.pixabay.com/photo/2019/09/07/19/02/spanish-paella-4459519_1280.jpg",
                     chef = "Spicy Nelly",
@@ -167,7 +167,7 @@ private fun PreviewHomeScreen() {
                 ),
                 Recipe(
                     id = 4,
-                    category = "Japanese",
+                    category = RecipeCategory.ASIAN,
                     name = "Long Very Long Long Very Very Long Ttekbokki",
                     imageUrl = "https://cdn.pixabay.com/photo/2017/07/27/16/48/toppokki-2545943_1280.jpg",
                     chef = "Kim Dahee",
@@ -177,7 +177,7 @@ private fun PreviewHomeScreen() {
                 ),
                 Recipe(
                     id = 5,
-                    category = "American",
+                    category = RecipeCategory.DINNER,
                     name = "Grilled salmon with avocado salsa",
                     imageUrl = "https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg",
                     chef = "Alice Johnson",

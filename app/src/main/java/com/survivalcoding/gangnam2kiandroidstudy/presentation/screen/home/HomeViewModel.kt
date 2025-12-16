@@ -10,7 +10,9 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,20 +34,23 @@ class HomeViewModel(
         loadRecipes()
     }
 
+    // 카테고리 선택에 따라 선택된 레시피 리스트 업데이트
     fun onSelectCategory(category: String) {
         _state.update { it.copy(selectedCategory = category) }
-        filterRecipesByCategory(category)
+        filterRecipesByCategory(category.toCategory())
     }
 
-    private fun filterRecipesByCategory(category: String) {
+    private fun filterRecipesByCategory(category: RecipeCategory) {
         val all = state.value.allRecipes
 
         val filtered =
-            if (category == "All") {
+            if (category == RecipeCategory.ALL) {
                 all
+            } else if (category == RecipeCategory.NONE) {
+                emptyList()
             } else {
                 all.filter { recipe ->
-                    recipe.category.equals(category, ignoreCase = true)
+                    recipe.category == category
                 }
             }
 
@@ -53,6 +58,7 @@ class HomeViewModel(
     }
 
 
+    // 모든 레시피 읽어오기
     // race condition 방지
     private var loadJob: Job? = null
     fun loadRecipes() {
@@ -66,12 +72,14 @@ class HomeViewModel(
 
                     currentState.copy(
                         allRecipes = all,
-                        selectedRecipes = if (currentState.selectedCategory == "All") all
-                        else all.filter {
-                            it.category.equals(
-                                currentState.selectedCategory,
-                                ignoreCase = true
-                            )
+                        selectedRecipes = if (currentState.selectedCategory.toCategory() == RecipeCategory.ALL) {
+                            all
+                        } else if (currentState.selectedCategory.toCategory() == RecipeCategory.NONE) {
+                            emptyList()
+                        } else {
+                            all.filter { recipe ->
+                                recipe.category == currentState.selectedCategory.toCategory()
+                            }
                         },
                         isLoading = false,
                     )
