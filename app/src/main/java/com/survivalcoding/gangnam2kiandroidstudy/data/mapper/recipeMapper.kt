@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.mapper
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipeDTO
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toCategory
 
 fun RecipeDTO.toModel(): Recipe {
     return Recipe(
