@@ -10,7 +10,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toFormatString
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -144,7 +145,7 @@ class SearchRecipesViewModel(
 
                     // 3) 다중 선택 → 하나라도 매칭되면 포함
                     else -> list.filter { recipe ->
-                        selectedCategories.contains(recipe.category)
+                        selectedCategories.contains(recipe.category.toFormatString())
                     }
                 }
             }
