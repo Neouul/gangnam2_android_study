@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,15 +28,10 @@ fun Tab(
     modifier: Modifier = Modifier,
     onValueChange: (Int) -> Unit = {},
 ) {
-    require(labels.size == 2) {
-        "Tab 컴포넌트는 정확히 2개의 라벨만 지원합니다. (현재 size=${labels.size})"
-    }
-
-    val safeSelectedIndex = selectedIndex.coerceIn(0, 1)
-
     Box(
         modifier = modifier
-            .size(width = 375.dp, height = 58.dp)
+            .width(375.dp)
+            .height(58.dp)
             .background(color = AppColors.white),
     ) {
         Row(
@@ -43,35 +40,27 @@ fun Tab(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            if (safeSelectedIndex == 0) {
-                tabs2Label(
-                    text = labels[0],
-                    isSelected = true,
-                    modifier = Modifier.clickable {
+            val isSelected = selectedIndex == 0
+
+            tabs2Label(
+                text = labels[0],
+                isSelected = isSelected,
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
                         onValueChange(0)
-                    })
-                Spacer(modifier = Modifier.width(15.dp))
-                tabs2Label(
-                    text = labels[1],
-                    isSelected = false,
-                    modifier = Modifier.clickable {
+                    }
+            )
+            Spacer(modifier = Modifier.width(15.dp))
+            tabs2Label(
+                text = labels[1],
+                isSelected = !isSelected,
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
                         onValueChange(1)
-                    })
-            } else {
-                tabs2Label(
-                    text = labels[0],
-                    isSelected = false,
-                    modifier = Modifier.clickable {
-                        onValueChange(0)
-                    })
-                Spacer(modifier = Modifier.width(15.dp))
-                tabs2Label(
-                    text = labels[1],
-                    isSelected = true,
-                    modifier = Modifier.clickable {
-                        onValueChange(1)
-                    })
-            }
+                    }
+            )
         }
     }
 }
@@ -82,36 +71,21 @@ fun tabs2Label(
     isSelected: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    if (isSelected) {
-        Box(
-            modifier = modifier
-                .size(width = 150.dp, height = 33.dp)
-                .background(
-                    color = AppColors.primary100,
-                    shape = RoundedCornerShape(10.dp)
-                ),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = text,
-                style = AppTextStyles.smallerTextBold.copy(color = AppColors.white)
-            )
-        }
-    } else {
-        Box(
-            modifier = modifier
-                .size(width = 150.dp, height = 33.dp)
-                .background(
-                    color = AppColors.white,
-                    shape = RoundedCornerShape(10.dp)
-                ),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = text,
-                style = AppTextStyles.smallerTextBold.copy(color = AppColors.primary80)
-            )
-        }
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(33.dp)
+            .background(
+                color = if (isSelected) AppColors.primary100 else AppColors.white,
+                shape = RoundedCornerShape(10.dp)
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = text,
+            style = AppTextStyles.smallerTextBold.copy(color = AppColors.white),
+            color = if (isSelected) AppColors.white else AppColors.primary80
+        )
     }
 }
 

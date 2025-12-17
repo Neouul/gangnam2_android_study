@@ -49,7 +49,8 @@ fun SmallButton(
 
     Box(
         modifier = modifier
-            .size(width = 174.dp, height = 37.dp)
+            .width(174.dp)
+            .height(37.dp)
             .background(
                 color = backgroundColor,
                 shape = RoundedCornerShape(10.dp)

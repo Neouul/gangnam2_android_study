@@ -40,6 +40,7 @@ fun RecipeCard(
     modifier: Modifier = Modifier,
     onCardClick: () -> Unit = {},
     onBookmarkClick: () -> Unit = {},
+    isDetail: Boolean = false,
 ) {
     Box(
         modifier = modifier
@@ -83,18 +84,20 @@ fun RecipeCard(
                     .weight(1f),
 
                 ) {
-                Text(
-                    text = recipe.name,
-                    style = AppTextStyles.smallTextBold,
-                    color = AppColors.white
-                )
-                Text(
-                    text = "By ${recipe.chef}",
-                    style = AppTextStyles.smallerTextSmallLabel,
-                    color = AppColors.gray4,
-                    modifier = Modifier
+                if(!isDetail){
+                    Text(
+                        text = recipe.name,
+                        style = AppTextStyles.smallTextBold,
+                        color = AppColors.white
+                    )
+                    Text(
+                        text = "By ${recipe.chef}",
+                        style = AppTextStyles.smallerTextSmallLabel,
+                        color = AppColors.gray4,
+                        modifier = Modifier
 
-                )
+                    )
+                }
             }
             Spacer(Modifier.width(10.dp))
             Row(
@@ -125,7 +128,7 @@ fun RecipeCard(
                     modifier = Modifier
                         .size(24.dp)
                         .clickable {
-                            onBookmarkClick
+                            onBookmarkClick()
                         }
                         .background(
                             color = AppColors.white,

@@ -33,7 +33,7 @@ fun IngredientItem(
             .fillMaxWidth()
             .height(76.dp)
             .background(
-                color = AppColors.gray4,
+                color = AppColors.gray4.copy(alpha = 0.5f),
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {
