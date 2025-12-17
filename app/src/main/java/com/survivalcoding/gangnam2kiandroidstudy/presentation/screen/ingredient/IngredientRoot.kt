@@ -19,5 +19,7 @@ fun IngredientRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    viewModel.loadRecipeDetail(recipeId)
+
     IngredientScreen(state = state)
 }

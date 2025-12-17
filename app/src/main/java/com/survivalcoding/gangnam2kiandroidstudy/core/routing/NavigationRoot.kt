@@ -79,16 +79,15 @@ fun NavigationRoot(
                                             topLevelBackStack.add(Route.SearchRecipes)
                                         },
                                         onProfileClick = {
-                                            mainBackStack.clear()
-                                            mainBackStack.add(Route.Profile)
+                                            topLevelBackStack.clear()
+                                            topLevelBackStack.add(Route.Profile)
                                         },
                                     )
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesRoot(
                                         onCardClick = { recipeId ->
-                                            mainBackStack.clear()
-                                            mainBackStack.add(Route.RecipeDetail(recipeId))
+                                            topLevelBackStack.add(Route.RecipeDetail(recipeId))
                                         },
                                     )
                                 }
