@@ -112,7 +112,14 @@ fun NavigationRoot(
                 )
             }
             entry<Route.RecipeDetail> { key ->
-                IngredientRoot(key.recipeId)
+                IngredientRoot(
+                    recipeId = key.recipeId,
+                    onBackClick = {
+                        if (topLevelBackStack.size > 1) {
+                            topLevelBackStack.removeAt(topLevelBackStack.lastIndex)
+                        }
+                    }
+                )
             }
         }
     )
