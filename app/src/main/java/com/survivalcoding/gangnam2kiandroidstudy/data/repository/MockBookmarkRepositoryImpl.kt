@@ -2,8 +2,11 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.User
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import javax.inject.Inject
 
-class MockBookmarkRepositoryImpl : BookmarkRepository {
+class MockBookmarkRepositoryImpl @Inject constructor(
+
+) : BookmarkRepository {
     private var _user = User(
         id = 1,
         name = "admin",

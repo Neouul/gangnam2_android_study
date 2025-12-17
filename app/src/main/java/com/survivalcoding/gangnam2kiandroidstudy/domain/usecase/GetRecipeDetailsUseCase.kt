@@ -2,8 +2,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.domain.usecase
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
+import javax.inject.Inject
 
-class GetRecipeProcedureUseCase(
+class GetRecipeProcedureUseCase @Inject constructor(
     private val procedureRepository: ProcedureRepository,
 ) {
     suspend fun execute(recipeId: Long): Result<List<String>, String> {

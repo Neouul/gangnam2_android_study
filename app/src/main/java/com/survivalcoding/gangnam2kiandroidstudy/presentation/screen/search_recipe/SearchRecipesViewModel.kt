@@ -1,18 +1,12 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toFormatString
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,10 +16,11 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchRecipesViewModel(
+@HiltViewModel
+class SearchRecipesViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
-    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchRecipesState())
@@ -161,29 +156,5 @@ class SearchRecipesViewModel(
     override fun onCleared() {
         println("MainViewModel cleared")
         super.onCleared()
-    }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val savedStateHandle = createSavedStateHandle()
-                val recipeRepository =
-                    (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                SearchRecipesViewModel(
-                    recipeRepository = recipeRepository,
-                    savedStateHandle = savedStateHandle,
-                )
-            }
-        }
-
-        fun factory(application: AppApplication): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    SearchRecipesViewModel(
-                        recipeRepository = application.recipeRepository,
-                        savedStateHandle = createSavedStateHandle(),
-                    )
-                }
-            }
     }
 }

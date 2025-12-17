@@ -5,8 +5,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
+import javax.inject.Inject
 
-class RecipeRepositoryImpl(
+class RecipeRepositoryImpl @Inject constructor(
     private val dataSource: RecipeDataSource
 ) : RecipeRepository {
 
@@ -22,9 +23,9 @@ class RecipeRepositoryImpl(
         try {
             return Result.Success(
                 dataSource.getRecipes()
-                ?.filterNotNull()
-                ?.map { it.toModel() }
-                ?: emptyList())
+                    ?.filterNotNull()
+                    ?.map { it.toModel() }
+                    ?: emptyList())
         } catch (e: Exception) {
             return Result.Error("error : findRecipes() 실패")
         }

@@ -5,21 +5,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
 
 
 @Composable
 fun SearchRecipesRoot(
     onBackClick: () -> Unit,
-    viewModel: SearchRecipesViewModel = viewModel(
-        factory = SearchRecipesViewModel.factory(
-            LocalContext.current.applicationContext as AppApplication
-        )
-    ),
+    viewModel: SearchRecipesViewModel = hiltViewModel(),
 ) {
     // UI 상태
     val state by viewModel.state.collectAsStateWithLifecycle()
