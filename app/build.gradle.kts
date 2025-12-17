@@ -80,4 +80,19 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.material3.adaptive.navigation3)
     implementation(libs.kotlinx.serialization.core)
+
+    // Koin : 의존성 주입 라이브러리
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+
+    // Android Koin
+    implementation(platform("io.insert-koin:koin-bom:4.1.1"))
+    implementation("io.insert-koin:koin-android")
+
+    // Compose Koin
+    implementation(platform("io.insert-koin:koin-bom:4.1.1"))
+    implementation("io.insert-koin:koin-androidx-compose")
+
+    // Navigation 3 support (alpha)
+    implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta2")
 }

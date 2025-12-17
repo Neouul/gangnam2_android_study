@@ -1,23 +1,33 @@
 package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.app.Application
-import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.MockRecipeDataSourceImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ProcedureRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeProcedureUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.appModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.dataSourceModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.repositoryModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.useCaseModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class AppApplication : Application() {
 
-    // 싱글턴 객체
-    val recipeDataSource by lazy { MockRecipeDataSourceImpl() }
-    val recipeRepository by lazy { RecipeRepositoryImpl(recipeDataSource) }
-    val procedureRepository by lazy { ProcedureRepositoryImpl() }
-
-    // UseCase
-    val getRecipeProcedureUseCase by lazy { GetRecipeProcedureUseCase(procedureRepository) }
-
     override fun onCreate() {
         super.onCreate()
+
+        startKoin {
+            // Log Koin into Android logger
+            androidLogger()
+            // Reference Android context
+            androidContext(this@AppApplication)
+            // Load modules
+            modules(
+                appModule,
+                dataSourceModule,
+                repositoryModule,
+                useCaseModule,
+                viewModelModule,
+            )
+        }
     }
 }

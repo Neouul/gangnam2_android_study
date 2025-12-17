@@ -2,16 +2,14 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeRoot(
     onSearchClick: () -> Unit,
     onProfileClick: () -> Unit,
-    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory(LocalContext.current.applicationContext as AppApplication)),
+    viewModel: HomeViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
