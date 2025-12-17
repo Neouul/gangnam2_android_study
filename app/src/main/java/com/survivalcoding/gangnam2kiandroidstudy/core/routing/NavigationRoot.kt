@@ -79,8 +79,8 @@ fun NavigationRoot(
                                             topLevelBackStack.add(Route.SearchRecipes)
                                         },
                                         onProfileClick = {
-                                            topLevelBackStack.clear()
-                                            topLevelBackStack.add(Route.Profile)
+                                            mainBackStack.clear()
+                                            mainBackStack.add(Route.Profile)
                                         },
                                     )
                                 }

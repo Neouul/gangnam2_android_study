@@ -20,7 +20,7 @@ fun SavedRecipesScreen(
     state: SavedRecipesState,
 
     onCardClick: (Long) -> Unit = {},
-    onBookmarkClick: () -> Unit = {},
+    onBookmarkClick: (Long) -> Unit = {},
 ) {
 
     Column(
@@ -42,7 +42,7 @@ fun SavedRecipesScreen(
                     recipe = recipe,
                     modifier = Modifier.padding(bottom = 20.dp),
                     onCardClick = { onCardClick(recipe.id) },
-                    onBookmarkClick = onBookmarkClick,
+                    onBookmarkClick = { onBookmarkClick(recipe.id) },
                 )
             }
         }
