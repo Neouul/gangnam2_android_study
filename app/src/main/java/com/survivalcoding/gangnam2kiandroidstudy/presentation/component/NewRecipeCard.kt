@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -46,12 +45,10 @@ fun NewRecipeCard(
 
     Box(
         modifier = Modifier
-            .padding(
-                vertical = 10.dp,
-                horizontal = 7.5.dp
-            )
-            .width(251.dp)
-            .height(127.dp)
+            .height(139.dp)
+            .padding(horizontal = 7.5.dp)
+            .width(251.dp),
+        contentAlignment = Alignment.Center
     ) {
         // 둥근 카드 그림자
         Box(
@@ -62,7 +59,7 @@ fun NewRecipeCard(
                 .offset(y = (-10).dp)
                 .shadow(
                     elevation = 15.dp,
-                    shape = CircleShape,
+                    shape = RoundedCornerShape(10.dp),
                     spotColor = Color(0x4A000000),
                     ambientColor = Color(0x4A000000),
                 ),
@@ -83,7 +80,7 @@ fun NewRecipeCard(
                     .height(95.dp)
                     .background(
                         color = AppColors.white,
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(10.dp),
                     )
                     .align(Alignment.BottomCenter)
                     .padding(

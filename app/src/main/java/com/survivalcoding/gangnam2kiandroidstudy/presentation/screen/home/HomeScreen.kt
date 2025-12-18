@@ -106,7 +106,9 @@ fun HomeScreen(
         )
 
         // dish cards
-        LazyRow {
+        LazyRow(
+            modifier = Modifier.height(231.dp)
+        ) {
             item {
                 Spacer(modifier = Modifier.width(30.dp))
             }
@@ -135,7 +137,9 @@ fun HomeScreen(
         )
 
         // New Recipe Cards
-        LazyRow {
+        LazyRow(
+            modifier = Modifier.height(147.dp)
+        ) {
             item {
                 Spacer(modifier = Modifier.width(22.5.dp))
             }
@@ -143,7 +147,7 @@ fun HomeScreen(
             items(state.selectedRecipes) { selected ->
                 NewRecipeCard(
                     recipe = selected,
-                    onNewRecipeClick = {onAction(HomeAction.OnNewRecipeClick(selected.id))},
+                    onNewRecipeClick = { onAction(HomeAction.OnNewRecipeClick(selected.id)) },
                 )
             }
         }
