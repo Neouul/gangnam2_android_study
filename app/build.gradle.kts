@@ -42,6 +42,22 @@ android {
     buildFeatures {
         compose = true
     }
+    flavorDimensions += listOf("version")
+    productFlavors {
+        create("dev") {
+            dimension = "version"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+        create("prod") {
+            dimension = "version"
+        }
+        create("qa") {
+            dimension = "version"
+            applicationIdSuffix = ".qa"
+            versionNameSuffix = "-qa"
+        }
+    }
 }
 
 dependencies {
