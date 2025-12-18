@@ -38,28 +38,19 @@ fun SocialButton(
     Box(
         modifier = modifier
             .size(44.dp)
-            .background(
-                color = AppColors.white,
-                shape = RoundedCornerShape(10.dp)
-            )
             .shadow(
                 elevation = shadowElevation,
                 shape = shape,
                 // 스팟 색상을 사용하여 그림자 색상과 투명도를 지정합니다.
                 spotColor = shadowColor,
 //                ambientColor = shadowColor,
+            )
+            .background(
+                color = AppColors.white,
+                shape = RoundedCornerShape(10.dp)
             ),
         contentAlignment = Alignment.Center
     ) {
-        Box(
-            modifier = modifier
-                .size(44.dp)
-                .background(
-                    color = AppColors.white,
-                    shape = RoundedCornerShape(10.dp)
-                )
-        )
-
         Icon(
             painter = painterResource(iconId),
             modifier = Modifier.size(24.dp),
