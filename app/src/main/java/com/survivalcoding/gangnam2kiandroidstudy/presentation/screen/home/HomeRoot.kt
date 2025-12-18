@@ -7,17 +7,22 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeRoot(
-    onSearchClick: () -> Unit,
-    onProfileClick: () -> Unit,
+    navigateToSearch: () -> Unit,
+    navigateToProfile: () -> Unit,
+    navigateToRecipeDetail: (Long) -> Unit,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     HomeScreen(
         state = state,
-        onCategoryClick = { category -> viewModel.onSelectCategory(category) },
-        onBookmarkClick = { recipeId -> viewModel.toggleBookmark(recipeId) },
-        onSearchClick = onSearchClick,
-        onProfileClick = onProfileClick,
+        onAction = { action ->
+            viewModel.onAction(
+                action = action,
+                navigateToSearch = navigateToSearch,
+                navigateToProfile = navigateToProfile,
+                navigateToRecipeDetail = navigateToRecipeDetail,
+            )
+        }
     )
 }

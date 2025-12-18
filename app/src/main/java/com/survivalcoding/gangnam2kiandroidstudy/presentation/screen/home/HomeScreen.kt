@@ -36,12 +36,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun HomeScreen(
     state: HomeState,
-
-    onSearchClick: () -> Unit = {},
-    onProfileClick: () -> Unit = {},
-    onFilterClick: () -> Unit = {},
-    onCategoryClick: (String) -> Unit = {},
-    onBookmarkClick: (Long) -> Unit = {},
+    onAction: (HomeAction) -> Unit,
 ) {
     // 스크롤 상태 저장
     val scrollState = rememberScrollState()
@@ -87,24 +82,26 @@ fun HomeScreen(
                         color = AppColors.secondary40,
                         shape = RoundedCornerShape(10.dp)
                     )
-                    .clickable { onProfileClick() },
+                    .clickable { onAction(HomeAction.OnProfileClick) },
             )
         }
 
         // 검색창
         SearchBar(
             modifier = Modifier
-                .clickable { onSearchClick() }
                 .padding(horizontal = 30.dp),
             state = SearchRecipesState(),
-            onSearchTermChange = { },
+            onInputFieldClick = { onAction(HomeAction.OnSearchClick) },
+            isClickInputField = true,
         )
 
         // 카테고리 선택바
         RecipeCategorySelector(
             modifier = Modifier.padding(vertical = 15.dp),
             selectedCategory = state.selectedCategory,
-            onCategoryClick = onCategoryClick,
+            onCategoryClick = { category ->
+                onAction(HomeAction.OnCategoryClick(category))
+            },
         )
 
         // dish cards
@@ -116,9 +113,11 @@ fun HomeScreen(
             items(state.selectedRecipes) { selected ->
                 DishCard(
                     recipe = selected,
-                    modifier = Modifier.padding(end = 15.dp),
+                    modifier = Modifier
+                        .clickable { onAction(HomeAction.OnDishClick(selected.id)) }
+                        .padding(end = 15.dp),
                     isSaved = selected.id in state.savedRecipeIds,
-                    onBookmarkClick = { onBookmarkClick(selected.id) },
+                    onBookmarkClick = { onAction(HomeAction.OnBookmarkClick(selected.id)) },
                 )
             }
         }
@@ -187,5 +186,6 @@ private fun PreviewHomeScreen() {
                 ),
             )
         ),
+        onAction = {},
     )
 }

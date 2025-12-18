@@ -49,8 +49,9 @@ private fun PreviewMainScreen() {
                 entryProvider = entryProvider {
                     entry<Route.Home> {
                         HomeRoot(
-                            onSearchClick = {},
-                            onProfileClick = {},
+                            navigateToSearch = {},
+                            navigateToProfile = {},
+                            navigateToRecipeDetail = {},
                         )
                     }
                     entry<Route.SavedRecipes> {
