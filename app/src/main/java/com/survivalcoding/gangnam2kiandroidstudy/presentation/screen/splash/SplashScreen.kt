@@ -2,7 +2,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,11 +31,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SplashScreen(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    state: SplashState,
+    onAction: (SplashAction) -> Unit,
 ) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize(),
     ) {
         // 배경 이미지
@@ -126,7 +125,7 @@ fun SplashScreen(
                 text = "Start Cooking",
                 modifier = Modifier
                     .padding(bottom = 84.dp),
-                onClick = onClick,
+                onClick = { onAction(SplashAction.OnStartClick) },
             )
         }
     }
@@ -135,5 +134,8 @@ fun SplashScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewSplashScreen() {
-    SplashScreen()
+    SplashScreen(
+        state = SplashState(),
+        onAction = {},
+    )
 }
