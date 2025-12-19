@@ -6,9 +6,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipesEvent
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,12 +23,10 @@ class HomeViewModel(
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state.asStateFlow()
 
-    fun onAction(
-        action: HomeAction,
-        navigateToSearch: () -> Unit,
-        navigateToProfile: () -> Unit,
-        navigateToRecipeDetail: (Long) -> Unit,
-    ) {
+    private val _event = MutableSharedFlow<HomeEvent>()
+    val event = _event.asSharedFlow()
+
+    fun onAction(action: HomeAction) {
         when (action) {
             is HomeAction.OnBookmarkClick -> {
                 toggleBookmark(action.recipeId)
@@ -35,14 +36,28 @@ class HomeViewModel(
                 onSelectCategory(action.category)
             }
 
-            HomeAction.OnProfileClick -> navigateToProfile()
-            HomeAction.OnSearchClick -> navigateToSearch()
+            HomeAction.OnProfileClick -> {
+                viewModelScope.launch {
+                    _event.emit(HomeEvent.NavigateToProfile)
+                }
+            }
+
+            HomeAction.OnSearchClick -> {
+                viewModelScope.launch {
+                    _event.emit(HomeEvent.NavigateToSearch)
+                }
+            }
+
             is HomeAction.OnDishClick -> {
-                navigateToRecipeDetail(action.recipeId)
+                viewModelScope.launch {
+                    _event.emit(HomeEvent.NavigateToRecipeDetail(action.recipeId))
+                }
             }
 
             is HomeAction.OnNewRecipeClick -> {
-                navigateToRecipeDetail(action.recipeId)
+                viewModelScope.launch {
+                    _event.emit(HomeEvent.NavigateToRecipeDetail(action.recipeId))
+                }
             }
         }
     }

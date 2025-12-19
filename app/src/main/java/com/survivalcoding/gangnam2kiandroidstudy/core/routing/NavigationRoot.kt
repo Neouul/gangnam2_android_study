@@ -75,14 +75,14 @@ fun NavigationRoot(
                             entryProvider = entryProvider {
                                 entry<Route.Home> {
                                     HomeRoot(
-                                        navigateToSearch = {
+                                        onNavigateToSearch = {
                                             topLevelBackStack.add(Route.SearchRecipes)
                                         },
-                                        navigateToProfile = {
+                                        onNavigateToProfile = {
                                             mainBackStack.clear()
                                             mainBackStack.add(Route.Profile)
                                         },
-                                        navigateToRecipeDetail = { recipeId ->
+                                        onNavigateToRecipeDetail = { recipeId ->
                                             topLevelBackStack.add(Route.RecipeDetail(recipeId))
                                         }
                                     )
