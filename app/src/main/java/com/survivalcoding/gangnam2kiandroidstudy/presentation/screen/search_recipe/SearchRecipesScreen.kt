@@ -38,7 +38,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchBa
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
-import kotlinx.coroutines.launch
 
 
 @Composable

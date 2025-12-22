@@ -43,7 +43,7 @@ fun MediumButton(
             modifier = modifier
                 .size(width = 243.dp, height = 54.dp)
                 .background(
-                    color = if (isPressed || !isEnabled) AppColors.gray4     // Disalbe
+                    color = if (isPressed || !isEnabled) AppColors.gray4     // Disable
                     else AppColors.primary100,      // Default
 
                     shape = RoundedCornerShape(10.dp)

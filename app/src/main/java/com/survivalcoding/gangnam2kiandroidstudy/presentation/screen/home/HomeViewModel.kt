@@ -6,7 +6,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipesEvent
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
