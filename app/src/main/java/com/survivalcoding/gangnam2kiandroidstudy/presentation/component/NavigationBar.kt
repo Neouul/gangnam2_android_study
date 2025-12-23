@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -20,10 +19,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Transparent
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +34,7 @@ fun NavigationBar(
     modifier: Modifier = Modifier,
     currentRoute: NavKey?,
     onItemClick: (Route) -> Unit,
+    isSavedScreen: Boolean = false,
 ) {
     val colors = NavigationBarItemDefaults.colors(
         selectedIconColor = AppColors.primary100,
@@ -60,20 +57,22 @@ fun NavigationBar(
         )
 
         // 1. [가장 아래 계층] 배경 벡터 이미지
-        Image(
-            painter = painterResource(id = R.drawable.navbar),
-            contentDescription = "네비게이션바 배경",
-            modifier = Modifier
-                .padding(top = 14.dp)
-                .height(106.dp)
-                .fillMaxWidth(),
-            contentScale = ContentScale.FillBounds // 너비에 맞춰 꽉 채움
-        )
+        if (!isSavedScreen) {
+            Image(
+                painter = painterResource(id = R.drawable.navbar),
+                contentDescription = "네비게이션바 배경",
+                modifier = Modifier
+                    .padding(top = 14.dp)
+                    .height(106.dp)
+                    .fillMaxWidth(),
+                contentScale = ContentScale.FillBounds // 너비에 맞춰 꽉 채움
+            )
+        }
 
         // 2. [중간 계층] 실제 네비게이션 버튼들
         // NavigationBar의 기본 배경과 그림자를 완전히 제거하여 벡터 이미지만 보이게 함
         NavigationBar(
-            containerColor = Transparent,
+            containerColor = if (!isSavedScreen) Transparent else AppColors.white,
             tonalElevation = 0.dp,
             modifier = Modifier
                 .fillMaxWidth()
@@ -96,7 +95,9 @@ fun NavigationBar(
             )
 
             // 중앙 FAB 공간 확보를 위한 투명 Spacer
-            Spacer(Modifier.weight(1f))
+            if (!isSavedScreen) {
+                Spacer(Modifier.weight(1f))
+            }
 
             NavigationBarItem(
                 selected = currentRoute is Route.Notifications,
@@ -115,20 +116,22 @@ fun NavigationBar(
         }
 
         // 3. [가장 위 계층] 중앙 Floating Action Button
-        FloatingActionButton(
-            onClick = { /* 추가 동작 */ },
-            modifier = Modifier
-                .align(Alignment.TopCenter) // Box의 상단 중앙에 배치
-                .size(48.dp),
-            containerColor = AppColors.primary100,
-            shape = CircleShape,
-            elevation = FloatingActionButtonDefaults.elevation(4.dp)
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.outline_union),
-                contentDescription = "추가",
-                tint = AppColors.white,
-            )
+        if (!isSavedScreen) {
+            FloatingActionButton(
+                onClick = { /* 추가 동작 */ },
+                modifier = Modifier
+                    .align(Alignment.TopCenter) // Box의 상단 중앙에 배치
+                    .size(48.dp),
+                containerColor = AppColors.primary100,
+                shape = CircleShape,
+                elevation = FloatingActionButtonDefaults.elevation(4.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.outline_union),
+                    contentDescription = "추가",
+                    tint = AppColors.white,
+                )
+            }
         }
     }
 }
@@ -140,5 +143,6 @@ private fun PreviewNavigationBar() {
     NavigationBar(
         currentRoute = currentRoute,
         onItemClick = {},
+        isSavedScreen = true,
     )
 }

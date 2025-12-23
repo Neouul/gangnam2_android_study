@@ -37,7 +37,8 @@ fun MainScreen(
                 onItemClick = { route ->
                     backStack.clear()
                     backStack.add(route)
-                }
+                },
+                isSavedScreen = currentRoute == Route.SavedRecipes,
             )
         },
         snackbarHost = {
