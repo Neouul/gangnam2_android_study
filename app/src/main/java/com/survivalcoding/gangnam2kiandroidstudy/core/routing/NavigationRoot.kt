@@ -68,7 +68,7 @@ fun NavigationRoot(
 
                 MainScreen(
                     backStack = mainBackStack,
-                    body = {
+                    body = { modifier, showSnackbar ->
                         NavDisplay(
                             modifier = modifier,
                             backStack = mainBackStack,
@@ -91,6 +91,9 @@ fun NavigationRoot(
                                     SavedRecipesRoot(
                                         onCardClick = { recipeId ->
                                             topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                                        },
+                                        onReachedBottom = {
+                                            showSnackbar("스크롤이 맨 아래에 도달했습니다.")
                                         },
                                     )
                                 }

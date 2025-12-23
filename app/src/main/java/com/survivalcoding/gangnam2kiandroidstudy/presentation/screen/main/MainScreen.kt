@@ -2,7 +2,10 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.NavBackStack
@@ -16,11 +19,16 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRo
 
 @Composable
 fun MainScreen(
-    body: @Composable (modifier: Modifier) -> Unit,
+    body: @Composable (
+        modifier: Modifier,
+        showSnackbar: suspend (String) -> Unit,
+    ) -> Unit,
     backStack: NavBackStack<NavKey>,
     modifier: Modifier = Modifier,
 ) {
     val currentRoute = backStack.lastOrNull()
+
+    val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         bottomBar = {
@@ -31,9 +39,17 @@ fun MainScreen(
                     backStack.add(route)
                 }
             )
-        }
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        },
     ) { innerPadding ->
-        body(modifier.padding(innerPadding))    // 하단바에 콘텐츠가 가려짐 방지
+        body(
+            modifier.padding(innerPadding),     // 하단바에 콘텐츠가 가려짐 방지
+            { message ->
+                snackbarHostState.showSnackbar(message)
+            }
+        )
     }
 }
 
@@ -43,7 +59,7 @@ private fun PreviewMainScreen() {
     val mainBackStack = rememberNavBackStack(Route.Home)
 
     MainScreen(
-        body = {
+        body = { modifier, showSnackbar ->
             NavDisplay(
                 backStack = mainBackStack,
                 entryProvider = entryProvider {

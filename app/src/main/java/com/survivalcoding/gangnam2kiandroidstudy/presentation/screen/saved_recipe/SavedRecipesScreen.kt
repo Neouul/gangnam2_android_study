@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,13 +19,15 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SavedRecipesScreen(
     state: SavedRecipesState,
+    listState: LazyListState,
+    modifier: Modifier = Modifier,
 
     onCardClick: (Long) -> Unit = {},
     onBookmarkClick: (Long) -> Unit = {},
 ) {
 
     Column(
-        modifier = Modifier.background(color = AppColors.white),
+        modifier = modifier.background(color = AppColors.white),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -35,6 +38,7 @@ fun SavedRecipesScreen(
         )
 
         LazyColumn(
+            state = listState,
             modifier = Modifier.padding(horizontal = 30.dp),
         ) {
             items(state.savedRecipes) { recipe ->
@@ -54,6 +58,7 @@ fun SavedRecipesScreen(
 @Composable
 private fun PreviewSavedRecipesScreen() {
     SavedRecipesScreen(
-        state = SavedRecipesState()
+        state = SavedRecipesState(),
+        listState = LazyListState(),
     )
 }
