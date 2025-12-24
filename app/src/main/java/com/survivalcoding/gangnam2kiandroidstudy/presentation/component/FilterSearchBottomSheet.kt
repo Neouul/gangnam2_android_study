@@ -54,23 +54,6 @@ fun FilterSearchBottomSheet(
         "Lunch",
     )
 
-    // 시스템 뒤로가기 버튼 처리
-//    val scope = rememberCoroutineScope()
-//
-//    BackHandler(enabled = true) {
-//        // 닫기 전에 현재까지 변경된 filterState를 ViewModel에 전달
-//        println("Log: BackHandler captured!")
-//        onApplyFilter(filterState)
-//
-//        scope.launch {
-//            sheetState.hide() // 시트를 닫는 애니메이션 실행
-//        }.invokeOnCompletion {
-//            if (!sheetState.isVisible) {
-//                onDismiss()
-//            }
-//        }
-//    }
-
 
     // 필터 바텀시트 UI
     ModalBottomSheet(
@@ -80,6 +63,11 @@ fun FilterSearchBottomSheet(
         },
         sheetState = sheetState,
     ) {
+        // 시스템 뒤로가기 버튼 처리
+//        BackHandler(enabled = true) {
+//            println("Log: BackHandler captured!")
+//        }
+
         Column(
             modifier = Modifier
                 .padding(horizontal = 30.dp),
