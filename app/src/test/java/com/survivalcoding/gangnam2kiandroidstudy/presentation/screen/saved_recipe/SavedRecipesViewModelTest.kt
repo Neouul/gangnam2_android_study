@@ -3,12 +3,14 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_reci
 import androidx.lifecycle.SavedStateHandle
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.MockRecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -45,18 +47,18 @@ class SavedRecipesViewModelTest {
         // given
         val viewModel: SavedRecipesViewModel = SavedRecipesViewModel(
             recipeRepository = repository,
-            savedStateHandle = SavedStateHandle(),
+            getSavedRecipesUseCase = mockk(),
         )
 
         // when
-        val expected = dataSource.getRecipes()
+        val expected = dataSource.getRecipes()?.filterNotNull()?.map { it.toModel() } ?: emptyList()
         viewModel.loadRecipes()
         // launch가 Main 디스패처에서 돌기 때문에 기다려줘야 함
         advanceUntilIdle()
 
         // then
-        assertTrue(viewModel.savedRecipes.value.isNotEmpty())
-        assertEquals(expected, viewModel.savedRecipes.value)
+        assertTrue(viewModel.state.value.savedRecipes.isNotEmpty())
+        assertEquals(expected, viewModel.state.value.savedRecipes)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -82,15 +84,17 @@ class SavedRecipesViewModelTest {
 
         val viewModel: SavedRecipesViewModel = SavedRecipesViewModel(
             recipeRepository = mockRepository,
-            savedStateHandle = SavedStateHandle(),
+            getSavedRecipesUseCase = mockk(),
         )
+        advanceUntilIdle()
 
         // when: id가 2인 레시피 추가하기
         viewModel.saveNewRecipe(2)
+        advanceUntilIdle()
 
         // then
-        assertTrue(viewModel.savedRecipes.value.isNotEmpty())
-        assertEquals(listOf(expected), viewModel.savedRecipes.value)
+        assertTrue(viewModel.state.value.savedRecipes.isNotEmpty())
+        assertEquals(listOf(expected), viewModel.state.value.savedRecipes)
     }
 
 }
