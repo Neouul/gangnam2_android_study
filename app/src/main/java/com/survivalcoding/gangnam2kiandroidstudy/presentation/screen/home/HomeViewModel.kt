@@ -96,7 +96,7 @@ class HomeViewModel(
     private fun loadRecipes() {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
+            _state.update { it.copy(isLoading = true, isError = false) }
 
             when (val response = recipeRepository.findRecipes()) {
                 is Result.Success -> _state.update { currentState ->
@@ -119,7 +119,7 @@ class HomeViewModel(
 
                 is Result.Error -> {
                     println("에러 처리")
-                    _state.update { it.copy(isLoading = false) }
+                    _state.update { it.copy(isLoading = false, isError = true) }
                 }
             }
 
