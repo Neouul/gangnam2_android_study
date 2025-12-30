@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   pull_request:
-    branches: [ "student/08_주연우" ]
+    branches: [ "master" ]
 
 jobs:
   build:
