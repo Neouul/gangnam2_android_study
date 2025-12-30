@@ -5,7 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toCategory
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipesUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val recipeRepository: RecipeRepository,
+    private val getRecipesUseCase: GetRecipesUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -98,7 +99,7 @@ class HomeViewModel(
         loadJob = viewModelScope.launch {
             _state.update { it.copy(isLoading = true, isError = false) }
 
-            when (val response = recipeRepository.findRecipes()) {
+            when (val response = getRecipesUseCase.execute()) {
                 is Result.Success -> _state.update { currentState ->
                     val all = response.data
 

@@ -71,7 +71,6 @@ class SearchToIngredientIntegrationTest {
                             override fun copyText(text: String) {}
                         }
                     }
-                    single { GetRecipeProcedureUseCase(get()) }
                     single { CopyLinkUseCase(get()) }
                     viewModel { SearchRecipesViewModel(get()) }
                     viewModel { IngredientViewModel(get(), get(), get()) }

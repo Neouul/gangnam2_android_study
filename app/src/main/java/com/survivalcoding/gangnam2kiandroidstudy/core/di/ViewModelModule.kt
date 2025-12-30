@@ -9,21 +9,21 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { HomeViewModel(recipeRepository = get()) }
+    viewModel { HomeViewModel(getRecipesUseCase = get()) }
     viewModel {
         SavedRecipesViewModel(
-            recipeRepository = get(),
             getSavedRecipesUseCase = get(),
+            getRecipeDetailsUseCase = get(),
         )
     }
     viewModel {
         SearchRecipesViewModel(
-            recipeRepository = get(),
+            getRecipesUseCase = get(),
         )
     }
     viewModel {
         IngredientViewModel(
-            recipeRepository = get(),
+            getRecipeDetailsUseCase = get(),
             getRecipeProcedureUseCase = get(),
             copyLinkUseCase = get(),
         )

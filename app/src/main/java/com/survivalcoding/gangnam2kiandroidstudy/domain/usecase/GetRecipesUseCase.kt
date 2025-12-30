@@ -4,10 +4,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 
-class GetRecipeDetailsUseCase(
+class GetRecipesUseCase(
     private val recipeRepository: RecipeRepository
 ) {
-    suspend fun execute(id: Long): Result<Recipe, String> {
-        return recipeRepository.findRecipe(id)
+    suspend fun execute(): Result<List<Recipe>, String> {
+        return recipeRepository.findRecipes()
     }
 }

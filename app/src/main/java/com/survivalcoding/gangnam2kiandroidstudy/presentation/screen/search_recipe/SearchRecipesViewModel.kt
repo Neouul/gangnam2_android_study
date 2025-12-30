@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toFormatString
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toFormatString
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipesUseCase
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 open class SearchRecipesViewModel(
-    private val recipeRepository: RecipeRepository,
+    private val getRecipesUseCase: GetRecipesUseCase,
 ) : ViewModel() {
 
     // 상태
@@ -165,7 +166,7 @@ open class SearchRecipesViewModel(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
 
-            when (val response = recipeRepository.findRecipes()) {
+            when (val response = getRecipesUseCase.execute()) {
                 is Result.Success -> {
                     _state.update { currentState ->
                         currentState.copy(
