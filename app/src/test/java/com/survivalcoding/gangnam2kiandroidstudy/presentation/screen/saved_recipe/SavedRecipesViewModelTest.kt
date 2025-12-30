@@ -1,35 +1,30 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe
 
-import androidx.lifecycle.SavedStateHandle
-import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.MockRecipeDataSourceImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSource
-import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SavedRecipesViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
-    private val dataSource: RecipeDataSource = MockRecipeDataSourceImpl()
-    private val repository: RecipeRepository = RecipeRepositoryImpl(dataSource) // 가짜 리스트
+    private val getSavedRecipesUseCase: GetSavedRecipesUseCase = mockk()
+    private val getRecipeDetailsUseCase: GetRecipeDetailsUseCase = mockk()
 
     @Before
     fun setup() {
@@ -41,32 +36,45 @@ class SavedRecipesViewModelTest {
         Dispatchers.resetMain()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `loadRecipes 메서드 - 모든 레시피를 받아온다`() = runTest {
         // given
-        val viewModel: SavedRecipesViewModel = SavedRecipesViewModel(
-            recipeRepository = repository,
-            getSavedRecipesUseCase = mockk(),
+        val sampleRecipes = listOf(
+            Recipe(
+                id = 1,
+                category = RecipeCategory.INDIAN,
+                name = "Traditional Indian Curry",
+                imageUrl = "",
+                chef = "Chef A",
+                time = "30 mins",
+                rating = 4.5,
+                ingredients = emptyList()
+            )
+        )
+        coEvery { getSavedRecipesUseCase.execute() } returns Result.Success(sampleRecipes)
+
+        val viewModel = SavedRecipesViewModel(
+            getSavedRecipesUseCase = getSavedRecipesUseCase,
+            getRecipeDetailsUseCase = getRecipeDetailsUseCase
         )
 
         // when
-        val expected = dataSource.getRecipes()?.filterNotNull()?.map { it.toModel() } ?: emptyList()
-        viewModel.loadRecipes()
-        // launch가 Main 디스패처에서 돌기 때문에 기다려줘야 함
-        advanceUntilIdle()
+        // init block calls loadRecipes() which launches a coroutine.
+        // We need to advance time to let it execute.
+        testDispatcher.scheduler.advanceUntilIdle()
 
         // then
         assertTrue(viewModel.state.value.savedRecipes.isNotEmpty())
-        assertEquals(expected, viewModel.state.value.savedRecipes)
+        assertEquals(sampleRecipes, viewModel.state.value.savedRecipes)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `saveNewRecipe 메서드 - 특정 id의 레시피를 state에 추가한다`() = runTest {
-        // given: ViewModel의 init에서 모든 레시피를 불러오도록 되어있음
-        // 특정 레시피 저장 확인을 위해 모킹
-        val expected = Recipe(
+        // given
+        // Initial load returns empty list
+        coEvery { getSavedRecipesUseCase.execute() } returns Result.Success(emptyList())
+
+        val newRecipe = Recipe(
             id = 2,
             category = RecipeCategory.ASIAN,
             name = "Spice roasted chicken with flavored rice",
@@ -76,25 +84,20 @@ class SavedRecipesViewModelTest {
             rating = 4.0,
             ingredients = listOf()
         )
+        coEvery { getRecipeDetailsUseCase.execute(2) } returns Result.Success(newRecipe)
 
-        val mockRepository = mockk<RecipeRepository>()
-        coEvery { mockRepository.findRecipes() } returns Result.Success(listOf())
-        // findRecipe()도 반드시 mock 해야 함!
-        coEvery { mockRepository.findRecipe(2) } returns Result.Success(expected)
-
-        val viewModel: SavedRecipesViewModel = SavedRecipesViewModel(
-            recipeRepository = mockRepository,
-            getSavedRecipesUseCase = mockk(),
+        val viewModel = SavedRecipesViewModel(
+            getSavedRecipesUseCase = getSavedRecipesUseCase,
+            getRecipeDetailsUseCase = getRecipeDetailsUseCase
         )
-        advanceUntilIdle()
+        testDispatcher.scheduler.advanceUntilIdle() // Finish init load
 
         // when: id가 2인 레시피 추가하기
         viewModel.saveNewRecipe(2)
-        advanceUntilIdle()
+        testDispatcher.scheduler.advanceUntilIdle() // Finish saveNewRecipe
 
         // then
         assertTrue(viewModel.state.value.savedRecipes.isNotEmpty())
-        assertEquals(listOf(expected), viewModel.state.value.savedRecipes)
+        assertEquals(listOf(newRecipe), viewModel.state.value.savedRecipes)
     }
-
 }
