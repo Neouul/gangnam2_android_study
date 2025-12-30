@@ -9,8 +9,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -80,15 +79,25 @@ class SearchRecipesViewModelTest {
 
     @Test
     fun `Initial State Validation`() = runTest {
+        // Override mock to simulate delay for loading state verification
+        coEvery { recipeRepository.findRecipes() } coAnswers {
+            delay(100)
+            Result.Success(emptyList())
+        }
         val initialStateViewModel = SearchRecipesViewModel(recipeRepository)
         
         // Before advancing, it should be in default state (isLoading=false)
         assertFalse(initialStateViewModel.state.value.isLoading)
         assertTrue(initialStateViewModel.state.value.allRecipes.isEmpty())
         
-        // Advance to start the loadRecipes launch
+        // Advance to start the loadRecipes launch, but pause at delay
         testDispatcher.scheduler.runCurrent()
-        assertTrue(initialStateViewModel.state.value.isLoading)
+        assertTrue("isLoading should be true while repository is fetching", initialStateViewModel.state.value.isLoading)
+
+        // Advance time to finish loading
+        advanceTimeBy(100)
+        testDispatcher.scheduler.runCurrent()
+        assertFalse("isLoading should be false after fetching", initialStateViewModel.state.value.isLoading)
     }
 
     @Test
