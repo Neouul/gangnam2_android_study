@@ -5,6 +5,9 @@ plugins {
 
     // Optional, provides the @Serialize annotation for autogeneration of Serializers.
     alias(libs.plugins.jetbrains.kotlin.serialization)
+
+    // ksp
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -96,6 +99,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.material3.adaptive.navigation3)
     implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.serialization.json)
 
     // Koin : 의존성 주입 라이브러리
     implementation(platform(libs.koin.bom))
@@ -106,4 +110,9 @@ dependencies {
 
     // Navigation 3 support (beta)
     implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta2")
+
+    // Room DB
+    implementation("androidx.room:room-runtime:2.8.4")
+    ksp("androidx.room:room-compiler:2.8.4")
+    implementation("androidx.room:room-ktx:2.8.4")
 }
